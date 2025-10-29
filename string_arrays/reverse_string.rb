@@ -14,6 +14,19 @@
 
 # @param {Character[]} s
 # @return {Void} Do not return anything, modify s in-place instead.
+
+# Runtime complexity: O(n)
+# Space complexity: O(1)
 def reverse_string(s)
-    s.reverse!
+    left = 0
+    right = s.length - 1
+    while right > left && left != right do
+        leftChar = s[left]
+        rightChar = s[right]
+        s[left] = rightChar
+        s[right] = leftChar
+        left += 1
+        right -= 1
+    end
+    s
 end

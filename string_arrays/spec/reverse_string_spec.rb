@@ -12,4 +12,28 @@ describe "#reverse_string" do
         reverse_string(s)
         expect(s).to eq(["h","a","n","n","a","H"])
     end
+
+    it "handle longer non-repeating string value" do
+        s = ["a", "r", "p", "o", "s", "t", "#", "!", "z", "x"]
+        reverse_string(s)
+        expect(s).to eq(["x", "z", "!", "#", "t", "s", "o", "p", "r", "a"])
+    end
+
+    it "should handle empty char array input" do
+        s = []
+        reverse_string(s)
+        expect(s).to eq([])
+    end
+
+    it "should handle empty char array input" do
+        s = []
+        reverse_string(s)
+        expect(s).to eq([])
+    end
+
+    it "should handle single char array input" do
+        s = ["s"]
+        reverse_string(s)
+        expect(s).to eq(["s"])
+    end
 end
