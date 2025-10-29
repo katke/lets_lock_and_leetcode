@@ -1,4 +1,4 @@
-require_relative '../reverse_string'
+require_relative './reverse_string'
 
 describe "#reverse_string" do
     it "should return the correct output for example 1" do
