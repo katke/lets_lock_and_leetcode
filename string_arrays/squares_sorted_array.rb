@@ -21,7 +21,7 @@
 # @param {Integer[]} nums
 # @return {Integer[]}
 # Runtime: O(n)
-# Space: O(n)
+# Space: O(n) [unless we don't count the output array, in which case it would be O(1)]
 def sorted_squares(nums)
     if nums.nil?
         return nums
