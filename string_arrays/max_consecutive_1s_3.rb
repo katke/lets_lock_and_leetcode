@@ -21,8 +21,10 @@
 # @param {Integer[]} nums
 # @param {Integer} k
 # @return {Integer}
+# Runtime: O(n)
+# Space: O(1)
 def longest_ones(nums, k)
-    if k < 1
+    if k < 0 || nums.nil? || k.nil?
         return 0
     end
     used_1s = 0
@@ -31,34 +33,26 @@ def longest_ones(nums, k)
     left = 0
     right = 0
     while right < nums.length
-        # check right pointer val
         rightVal = nums[right]
         if rightVal == 0
-            if used_1s < k
+            if used_1s <= k
                 used_1s += 1
-                consec_1s += 1
-                max_consecutive_1s = max_consecutive_1s > consec_1s ? max_consecutive_1s : consec_1s
+                consec_1s = right - left + 1
             end
-            while used_1s == k && left < right
+            while used_1s > k && left <= right do
                 leftVal = nums[left]
                 if leftVal == 0
-                    consec_1s -= 1
                     used_1s -= 1
                 end
+                consec_1s -= 1
                 left += 1
             end
+            max_consecutive_1s = max_consecutive_1s > consec_1s ? max_consecutive_1s : consec_1s
         else
-            consec_1s += 1
+            consec_1s = right - left + 1
             max_consecutive_1s = max_consecutive_1s > consec_1s ? max_consecutive_1s : consec_1s
         end
         right += 1
-        # if 0:
-            # if used_1s < k
-                # increment used_1s, increment consec 1s
-            # else if used_1s == k:
-                # while used_1s == k, move left pointer; decrement consec_1s, if left value == 0, decrement used_1s
-        # if 1, increment consec_1s
-        # increment right pointer
     end
     max_consecutive_1s
 end
