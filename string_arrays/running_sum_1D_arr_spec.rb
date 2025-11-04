@@ -1,6 +1,6 @@
 require_relative './running_sum_1D_arr'
 
-describe "#longest_ones" do
+describe "#running_sum" do
     it "should return the correct output for example 1" do
         nums = [1,2,3,4]
         result = running_sum(nums)
