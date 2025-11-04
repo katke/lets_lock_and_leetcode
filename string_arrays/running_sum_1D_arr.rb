@@ -22,6 +22,8 @@
 
 # @param {Integer[]} nums
 # @return {Integer[]}
+# Runtime: O(n)
+# Space: O(n)
 def running_sum(nums)
     result = []
     nums.each_with_index do |n, i|
