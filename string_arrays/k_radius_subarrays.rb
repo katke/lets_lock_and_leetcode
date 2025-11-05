@@ -34,10 +34,7 @@
 # Space: O(n)
 def get_averages(nums, k)
     avg_divisor = k * 2 + 1
-    result = []
-    nums.each do |n| # initialize result array with all -1 vals
-        result.push(-1)
-    end
+    result = Array.new(nums.length, -1) # initialize result array with all -1 vals
     if k < 0
         return result
     end
