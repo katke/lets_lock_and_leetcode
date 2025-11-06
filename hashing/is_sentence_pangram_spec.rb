@@ -1,6 +1,6 @@
 require_relative './is_sentence_pangram'
 
-describe "#two_sum" do
+describe "#check_if_pangram" do
     it "should return the correct output for provided example 1" do
         sentence = "thequickbrownfoxjumpsoverthelazydog"
         result = check_if_pangram(sentence)
