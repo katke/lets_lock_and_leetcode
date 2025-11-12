@@ -23,7 +23,7 @@
 # @param {String} magazine
 # @return {Boolean}
 # Runtime: O(n + m)
-# Space: O(n + m)
+# Space: O(n + m) => O(1) since it's limited to english lowercase letters
 def can_construct(ransom_note, magazine)
     note_freq = create_char_freq(ransom_note)
     mag_freq = create_char_freq(magazine)
