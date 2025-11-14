@@ -23,6 +23,8 @@
 
 # @param {String} s
 # @return {Integer}
+# Time: O(2n) => O(n)
+# Space: O(n) => kind of O(1) due to limited subset of acceptable chars
 def length_of_longest_substring(s)
     if s.nil?
         return 0
@@ -31,41 +33,27 @@ def length_of_longest_substring(s)
     right = 0
     largest_substring = 0
     freq = {}
-    while left < s.length do
+    while right < s.length do
         right_val = s[right]
         if freq[right_val].nil?
             freq[right_val] = 1
         else
             freq[right_val] = freq[right_val] + 1
         end
-        puts "in top level while, left: #{left}, right: #{right}"
-        puts "freq: #{freq}"
-        while freq.keys.length == right - left + 1 && left = right do
-            puts "---in inner while, left: #{left}, right: #{right}"
-            largest_substring = largest_substring < left - right + 1 ? left - right + 1 : largest_substring
-            puts "largest_substring: #{largest_substring}"
-            left_val = freq[left]
+        while freq[right_val] > 1 do # this is the key—as long as this character has more than 1, the window is not desirable; shrink from the left until it is again. Once this char drops below 2, the window can be safely assume to be desirable again because we will do this same flow on every char the right pointer touches; there will never be more than one repeating character in the window at any given moment as a result
+            left_val = s[left]
             curr_count = freq[left_val]
             if curr_count == 1
-                freq.remove(left_val)
+                freq.delete(left_val)
             else
                 freq[left_val] = curr_count - 1
             end
             left += 1
-            puts "freq: #{freq}"
         end
-        if right == s.length - 1
-            left_val = freq[left]
-            curr_count = freq[left_val]
-            if curr_count == 1
-                freq.remove(left_val)
-            else
-                freq[left_val] = curr_count - 1
-            end
-            left += 1
-        else
-            right += 1
+        if largest_substring < right - left + 1
+            largest_substring = right - left + 1
         end
+        right += 1
     end
     largest_substring
 end

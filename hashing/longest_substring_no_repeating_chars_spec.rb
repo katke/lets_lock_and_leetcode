@@ -24,4 +24,29 @@ describe "#length_of_longest_substring" do
         result = length_of_longest_substring(s)
         expect(result).to eq(4)
     end
+
+    it "should handle empty string input" do
+        s = ""
+        result = length_of_longest_substring(s)
+        expect(result).to eq(0)
+    end
+
+    it "should return correct output" do
+        s = "aaaaaabacdefgaaa"
+        result = length_of_longest_substring(s)
+        expect(result).to eq(7)
+    end
+
+    it "should return correct output when longest substring is at the beginning" do
+        s = "acdefgaabaaaaacaaaaaa"
+        result = length_of_longest_substring(s)
+        expect(result).to eq(6)
+    end
+
+    it "should return correct output when longest substring is at the end" do
+        s = "aaacaaabaaadaacdefgh"
+        result = length_of_longest_substring(s)
+        expect(result).to eq(7)
+    end
+    
 end
