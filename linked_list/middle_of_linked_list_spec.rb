@@ -41,6 +41,21 @@ describe "#middle_node" do
         result = middle_node(head)
         expect(result).to eq(node4)
     end
+
+    it "should return the tail when there are only two nodes" do
+        head = ListNode.new(1)
+        tail = ListNode.new(2)
+
+        head.next = tail
+        result = middle_node(head)
+        expect(result).to eq(tail)
+    end
+
+    it "should return the head when there is only one node" do
+        head = ListNode.new(1)
+        result = middle_node(head)
+        expect(result).to eq(head)
+    end
 end
 
 

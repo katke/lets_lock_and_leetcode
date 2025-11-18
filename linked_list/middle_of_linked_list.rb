@@ -29,5 +29,23 @@
 # @param {ListNode} head
 # @return {ListNode}
 def middle_node(head)
-    
+    if head.nil?
+        return head
+    end
+    dummy = head
+    count = 0
+    while dummy != nil do
+        count += 1
+        dummy = dummy.next
+    end
+    midpoint = (count / 2)+ 1
+    new_count = 0
+    dummy = head
+    while dummy != nil do
+        new_count += 1
+        if new_count == midpoint
+            return dummy
+        end
+        dummy = dummy.next
+    end 
 end
