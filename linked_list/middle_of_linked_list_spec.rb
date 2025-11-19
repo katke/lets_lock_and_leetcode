@@ -1,13 +1,5 @@
 require_relative './middle_of_linked_list'
-
-# Match LC's def
-class ListNode
-    attr_accessor :val, :next
-    def initialize(val = 0, _next = nil)
-        @val = val
-        @next = _next
-    end
-end
+require_relative '../helpers/linked_list_node'
 
 describe "#middle_node_less_efficient" do
     it "should return the correct output for provided example 1" do

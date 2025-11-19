@@ -1,8 +1,8 @@
-class Node
-    attr_accessor :val, :next_node
-
-    def initialize(val, next_node = nil)
+# Match LC's def
+class ListNode
+    attr_accessor :val, :next
+    def initialize(val = 0, _next = nil)
         @val = val
-        @next_node = next_node
+        @next = _next
     end
 end
