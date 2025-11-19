@@ -28,7 +28,9 @@
 # end
 # @param {ListNode} head
 # @return {ListNode}
-def middle_node(head)
+# Runtime: O(n + n/2) => O(n)
+# Space: O(1)
+def middle_node_less_efficient(head)
     if head.nil?
         return head
     end
@@ -48,4 +50,20 @@ def middle_node(head)
         end
         dummy = dummy.next
     end 
+end
+
+# Fast pointer moves twice as fast as the slow pointer, so by the time the fast pointer reaches the end of the linked list, we can reliably assume the slow pointer is at the mid point
+# Runtime: O(n/2) => O(n)
+# Space: O(1)
+def middle_node(head)
+    if head.nil? || head.next.nil?
+        return head
+    end
+    slow = head
+    fast = head
+    while !fast.nil? && !fast.next.nil? do
+        slow = slow.next
+        fast = fast.next.next
+    end
+    slow
 end
