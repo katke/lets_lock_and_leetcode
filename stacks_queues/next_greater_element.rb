@@ -27,27 +27,22 @@
 # @param {Integer[]} nums1
 # @param {Integer[]} nums2
 # @return {Integer[]}
+# Runtime: O(n + n + m) => O(n) [since n1 is subset of n2]
+# Space: O(n + m + m) => O(n)
 def next_greater_element(nums1, nums2)
-    puts "nums1: #{nums1}"
-    puts "nums2: #{nums2}"
     stack = []
     map = {}
     nums2.each do |n2|
-        puts "n2: #{n2}, stack: #{stack}"
         while !stack.empty? && n2 > stack[stack.length - 1] do
             map[stack.pop()] = n2
         end
         stack.push(n2)
     end
-    puts "end of n2 each loop, stack: #{stack}"
-    puts "map1: #{map}"
     while !stack.empty? do
         map[stack.pop()] = -1
     end
-    puts "map2: #{map}"
     result = []
     nums1.each_with_index do |n1,i|
-        puts "i: #{i}, n1: #{n1}"
         result[i] = map[n1]
     end
     result
