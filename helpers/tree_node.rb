@@ -26,4 +26,5 @@ def build_arr_from_tree(root)
         end
     end
     puts "vals: #{vals}"
+    vals
 end
