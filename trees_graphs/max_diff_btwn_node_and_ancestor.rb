@@ -39,6 +39,28 @@ def max_ancestor_diff(root)
     if root.nil?
         return 0
     end
+    return find_min_and_max(root, root.val, root.val)
+end
+
+def find_min_and_max(node, min_val, max_val)
+    if node.nil?
+        return (max_val - min_val).abs()
+    end
+    new_min = [min_val, node.val].min
+    new_max = [max_val, node.val].max
+    
+    left = find_min_and_max(node.left, new_min, new_max)
+    right = find_min_and_max(node.right, new_min, new_max)
+    
+    return [left, right].max
+end
+
+# Time: O(n^2)
+# Space: O(n + n) => O(n)
+def max_ancestor_diff_brute_force(root)
+    if root.nil?
+        return 0
+    end
     queue = Queue.new
     queue.enq(root)
     subtree_diffs = [0] # initialize with zero to prevent it blowing up on first iteration
@@ -54,7 +76,6 @@ def max_ancestor_diff(root)
     end
     subtree_diffs.max
 end
-
 
 def get_largest_subtree_diff(node, root_val, curr_max)
     if node.nil?
