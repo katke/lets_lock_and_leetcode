@@ -35,6 +35,8 @@
 # end
 # @param {TreeNode} root
 # @return {Integer}
+# Time: O(n)
+# Space: O(n)
 def max_ancestor_diff(root)
     if root.nil?
         return 0
