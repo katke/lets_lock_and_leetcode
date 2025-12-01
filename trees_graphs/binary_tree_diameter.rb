@@ -30,19 +30,39 @@
 # end
 # @param {TreeNode} root
 # @return {Integer}
+# lol leetcode "easy" sure bud
+# Runtime: O(n)
+# Space: O(n)
+@diameter = 0
 def diameter_of_binary_tree(root)
+    @diameter = 0
+    dfs(root)
+    @diameter
+end
+
+def dfs(root)
+    if root.nil?
+        return -1
+    end
+    left = dfs(root.left)
+    right = dfs(root.right)
+    @diameter = [left + right + 2, @diameter].max
+    [right, left].max + 1
+end
+
+def diameter_of_binary_tree_incomplete(root)
     if root.nil?
         return 0
     end
-    left = dfs(root.left, 0, [])
+    left = dfs_incomplete(root.left, 0, [])
     puts "left #{left}"
-    right = dfs(root.right, 0, [])
+    right = dfs_incomplete(root.right, 0, [])
     puts "right #{right}"
     puts "result: #{left + right}"
     left + right
 end
 
-def dfs(root, max_path, path)
+def dfs_incomplete(root, max_path, path)
     new_path = Array.new(path)
     if root.nil?
         puts "dfs: root is nil, returning max_path #{max_path} for path: #{new_path}"
@@ -51,8 +71,7 @@ def dfs(root, max_path, path)
         new_path.push(root.val)
         puts "dfs: root is #{root.val}, max_path currently #{max_path} for path: #{new_path}"
     end
-    left = dfs(root.left, max_path + 1, new_path)
-    right = dfs(root.right, max_path + 1, new_path)
-    left + right
-    # [left, right].max
+    left = dfs_incomplete(root.left, max_path + 1, new_path)
+    right = dfs_incomplete(root.right, max_path + 1, new_path)
+    [left, right].max
 end
