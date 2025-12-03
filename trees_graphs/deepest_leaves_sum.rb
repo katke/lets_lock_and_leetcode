@@ -16,7 +16,7 @@
 # @param {TreeNode} root
 # @return {Integer}
 # Time: O(n)
-# Space: O(n) where n = widest row of the tree
+# Space: O(n/2) => O(n) 
 def deepest_leaves_sum(root)
     if root.nil?
         return 0
