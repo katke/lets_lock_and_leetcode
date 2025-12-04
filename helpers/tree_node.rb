@@ -38,32 +38,28 @@ end
 # @return {TreeNode} - Root node of the constructed tree
 def build_tree_from_arr(arr)
     return nil if arr.nil? || arr.empty? || arr[0].nil?
-    
-    root = TreeNode.new(arr[0])
-    queue = Queue.new
-    queue.enq(root)
-    i = 1
-    
-    while !queue.empty? && i < arr.length do
-        curr = queue.deq()
-        
-        # Assign left child
-        if i < arr.length && !arr[i].nil?
-            curr.left = TreeNode.new(arr[i])
-            queue.enq(curr.left)
-        end
-        i += 1
-        
-        # Assign right child
-        if i < arr.length && !arr[i].nil?
-            curr.right = TreeNode.new(arr[i])
-            queue.enq(curr.right)
-        end
-        i += 1
+  
+    nodes = arr.map { |v| v.nil? ? nil : TreeNode.new(v) }
+  
+    nodes.each_with_index do |node, i|
+      next if node.nil?
+      left_i = 2*i + 1
+      right_i = 2*i + 2
+      node.left  = nodes[left_i]  if left_i < nodes.length
+      node.right = nodes[right_i] if right_i < nodes.length
     end
-    
-    root
-end
+  
+    nodes[0]
+  end
+  
+  # Sideways ASCII tree printer
+  def print_tree(node, prefix = "", is_left = true)
+    return if node.nil?
+  
+    print_tree(node.right, prefix + (is_left ? "│   " : "    "), false)
+    puts "#{prefix}#{is_left ? "└── " : "┌── "}#{node.val}"
+    print_tree(node.left,  prefix + (is_left ? "    " : "│   "), true)
+  end
 
 
 def validate_binary_tree_node_result(result, expected_tree_root)
