@@ -25,8 +25,26 @@ def build_arr_from_tree(root)
             queue.enq(curr.right)
         end
     end
-    puts "vals: #{vals}"
-    vals
+     trim_trailing_nil_leaf_nodes(vals)
+end
+
+def trim_trailing_nil_leaf_nodes(arr)
+    trailing_nil_nodes = 0
+    i = arr.count - 1
+    while i >= 0
+        if arr[i].nil?
+            trailing_nil_nodes += 1
+        else
+            # we've reached the first non-nil trailing node; the rest of the nils are needed for maintaining tree structure
+            break
+        end
+        i -= 1
+    end
+    trimmed_arr = Array.new(arr.count - trailing_nil_nodes)
+    (0..trimmed_arr.count - 1).each do |index|
+        trimmed_arr[index] = arr[index]
+    end
+    trimmed_arr
 end
 
 # Builds a binary tree from an array representation (level-order)
