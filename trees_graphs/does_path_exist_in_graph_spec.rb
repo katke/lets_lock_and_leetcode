@@ -18,4 +18,41 @@ describe "#valid_path" do
         result = valid_path(n, edges, source, destination)
         expect(result).to eq(false)
     end
+
+    it "should still find the valid path when it is several layers deep" do
+        n = 8
+        edges = [[0,1],[1,2],[2,5],[2,3],[3,5],[3,4],[5,6],[7,8]]
+        source = 0
+        destination = 4
+        result = valid_path(n, edges, source, destination)
+        expect(result).to eq(true)
+    end
+
+    it "should not find a valid path when source and destination are parts of disconnected graphs" do
+        n = 8
+        edges = [[0,1],[1,2],[2,5],[2,3],[3,5],[3,4],[5,6],[7,8]]
+        source = 0
+        destination = 7
+        result = valid_path(n, edges, source, destination)
+        expect(result).to eq(false)
+    end
+
+    it "should find a valid path when destination and source node are the same" do
+        n = 1
+        edges = []
+        source = 0
+        destination = 0
+        result = valid_path(n, edges, source, destination)
+        expect(result).to eq(true)
+    end
+
+    it "should not find a valid path when there are no edges" do
+        n = 8
+        edges = []
+        source = 0
+        destination = 4
+        result = valid_path(n, edges, source, destination)
+        expect(result).to eq(false)
+    end
+    
 end

@@ -34,6 +34,33 @@
 # @param {Integer} source
 # @param {Integer} destination
 # @return {Boolean}
+# Time: O(e + n)
+# Space: O(e + n + n) => O(e + n)
 def valid_path(n, edges, source, destination)
-    
+    if source == destination
+        return true
+    end
+    graph = Hash.new {|h,k| h[k] = []}
+    edges.each do |conn|
+        node1 = conn[0]
+        node2 = conn[1]
+        graph[node1].push(node2)
+        graph[node2].push(node1)
+    end
+    seen = Set[]
+    stack = []
+    stack.push(source)
+    while !stack.empty?
+        current = stack.pop()
+        graph[current].each do |neighbor|
+            if neighbor == destination
+                return true
+            elsif !seen.include?(neighbor)
+                seen.add(current)
+                stack.push(neighbor)
+            end
+        end
+
+    end
+    return false
 end
