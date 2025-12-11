@@ -64,3 +64,47 @@ def valid_path(n, edges, source, destination)
     end
     return false
 end
+
+def valid_path_recursive(n, edges, source, destination)
+    graph = Hash.new {|h,k| h[k] = []}
+    edges.each do |conn|
+        node1 = conn[0]
+        node2 = conn[1]
+        graph[node1].push(node2)
+        graph[node2].push(node1)
+    end
+    seen = Set[]
+    return dfs(source, graph, seen, destination)
+end
+
+def dfs(current_node, graph, seen, destination)
+    dfs_found = false
+    puts "In dfs call: current #{current_node}"
+    if current_node == destination
+        return true
+    else
+        seen.add(current_node)
+        graph[current_node].each do |neighbor|
+            if !seen.include?(neighbor)
+                dfs_found = dfs(neighbor, graph, seen, destination)
+                if dfs_found 
+                    return true
+                end
+            end
+        end
+    end
+    dfs_found
+end
+
+# Recursive call stack:
+# dfs(0) calls dfs(1)
+#   dfs(1) calls dfs(2)
+#     dfs(2) calls dfs(5)
+#       dfs(5) calls dfs(3)
+#         dfs(3) calls dfs(4)
+#           dfs(4) → returns true (found destination!)
+#         dfs(3) → receives true, returns true
+#       dfs(5) → receives true, returns true
+#     dfs(2) → receives true, returns true
+#   dfs(1) → receives true, returns true
+# dfs(0) → receives true, returns true
