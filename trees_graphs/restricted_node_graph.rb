@@ -13,14 +13,46 @@
 # Explanation: The diagram above shows the tree.
 # We have that [0,1,2,3] are the only nodes that can be reached from node 0 without visiting a restricted node.
 
-Constraints:
+# Constraints:
 
-2 <= n <= 10^5
-edges.length == n - 1
-edges[i].length == 2
-0 <= ai, bi < n
-ai != bi
-edges represents a valid tree.
-1 <= restricted.length < n
-1 <= restricted[i] < n
-All the values of restricted are unique.
+# 2 <= n <= 10^5
+# edges.length == n - 1
+# edges[i].length == 2
+# 0 <= ai, bi < n
+# ai != bi
+# edges represents a valid tree.
+# 1 <= restricted.length < n
+# 1 <= restricted[i] < n
+# All the values of restricted are unique.
+
+# @param {Integer} n
+# @param {Integer[][]} edges
+# @param {Integer[]} restricted
+# @return {Integer}
+# Runtime: O(rn + e + n) => O(e + n)
+# Space: O(e + n + rn) => O (e + n)
+def reachable_nodes(n, edges, restricted)
+    restricted_set = Set.new(restricted) # convert restricted to set, changes `include?` check from O(n) to O(1)
+    graph = Hash.new {|hash, key| hash[key] = []}
+    edges.each do |edge|
+        n1 = edge[0]
+        n2 = edge[1]
+        graph[n1].push(n2)
+        graph[n2].push(n1)
+    end
+    seen = Set[]
+    stack = []
+    stack.push(0)
+    while !stack.empty? do
+        curr_node = stack.pop()
+        unless restricted_set.include?(curr_node)
+            seen.add(curr_node)
+            graph[curr_node].each do |neighbor|
+                unless seen.include?(neighbor)
+                    stack.push(neighbor)
+                end
+            end
+        end
+    end
+    seen.count
+end

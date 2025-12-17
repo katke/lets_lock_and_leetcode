@@ -16,4 +16,12 @@ describe "#reachable_nodes" do
         result = reachable_nodes(n, edges, restricted)
         expect(result).to eq(3)
     end
+
+    it "returns expected value for larger tree" do
+        n = 11
+        edges = [[0,1],[0,2],[0,3],[0,4],[1,5],[1,6],[2,6],[2,7],[3,9],[3,10],[4,10],[4,11],[4,12],[7,8],[8,11]]
+        restricted = [6,4]
+        result = reachable_nodes(n, edges, restricted)
+        expect(result).to eq(10)
+    end
 end
