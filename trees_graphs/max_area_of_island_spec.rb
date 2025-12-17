@@ -12,4 +12,10 @@ describe "#max_area_of_island" do
         result = max_area_of_island(grid)
         expect(result).to eq(0)
     end
+
+    it "returns expected value" do
+        grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],[0,1,0,0,1,1,0,0,1,1,1,0,0],[0,1,0,0,0,0,0,0,0,0,1,0,0],[0,1,0,0,0,0,0,1,1,1,0,0,0],[0,1,0,0,0,0,0,1,1,0,0,0,0]]
+        result = max_area_of_island(grid)
+        expect(result).to eq(7)
+    end
 end
