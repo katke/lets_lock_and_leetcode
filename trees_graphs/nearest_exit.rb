@@ -27,6 +27,76 @@
 # @param {Character[][]} maze
 # @param {Integer[]} entrance
 # @return {Integer}
+# Runtime: O(n * m * 4) => O(n * m)
+# Space: O(m + n) => O (n + m)
+require "set"
+
 def nearest_exit(maze, entrance)
-    
+    directions = [[0,1], [1,0], [-1, 0], [0,-1]]
+    seen = Set[]
+    queue = []
+    queue.push(Node.new(entrance))
+    while !queue.empty? do
+        curr_node = queue.shift()
+        directions.each do |direction|  
+            new_row = curr_node.row + direction[0]
+            new_col = curr_node.col + direction[1]
+            seen_set_key = build_seen_set_key([new_row, new_col])
+            if is_valid?(maze, [new_row, new_col]) && !seen.include?(seen_set_key)
+                new_node = Node.new([new_row, new_col], curr_node.steps)
+                move_type = get_move_type(maze, entrance, new_node)
+                if move_type == CoordinateType::EXIT
+                    return curr_node.steps
+                elsif move_type == CoordinateType::OPEN
+                    seen.add(seen_set_key)
+                    queue.push(new_node)
+                end
+            end
+        end
+    end
+    -1
+end
+
+def build_seen_set_key(coordinates)
+    "#{coordinates[0]},#{coordinates[1]}"
+end
+
+def is_valid?(maze, coordinates)
+    row = coordinates[0]
+    col = coordinates[1]
+    row >= 0 && row < maze.length && col >= 0 && col < maze[0].length
+end
+
+def get_move_type(maze, entrance, node)
+    is_empty = maze[node.row][node.col] == "."
+    is_first_or_last_row = node.row == 0 || node.row == maze.length - 1
+    is_first_or_last_col = node.col == 0 || node.col == maze[0].length - 1
+    is_entrance = node.row == entrance[0] && node.col == entrance[1]
+    if is_empty && (is_first_or_last_row || is_first_or_last_col) && !is_entrance
+        CoordinateType::EXIT
+    elsif is_empty
+        CoordinateType::OPEN
+    else
+        CoordinateType::WALL
+    end
+end
+
+module CoordinateType
+  WALL = :wall
+  OPEN = :open
+  EXIT = :exit
+end
+
+class Node
+    attr_reader :coordinates
+    attr_reader :row
+    attr_reader :col
+    attr_reader :steps
+
+    def initialize(coordinates, steps = 0)
+        @coordinates = coordinates
+        @row = coordinates[0]
+        @col = coordinates[1]
+        @steps = steps + 1
+    end
 end

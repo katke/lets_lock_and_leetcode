@@ -5,19 +5,34 @@ describe "#nearest_exit" do
         maze = [["+","+",".","+"],[".",".",".","+"],["+","+","+","."]]
         entrance = [1,2]
         result = nearest_exit(maze, entrance)
-        expect(result).to be(1)
+        expect(result).to eq(1)
     end
 
     it "returns the expected result for provided example 2" do
         maze = [["+","+","+"],[".",".","."],["+","+","+"]]
         entrance = [1,0]
         result = nearest_exit(maze, entrance)
-        expect(result).to be(2)
+        expect(result).to eq(2)
     end
     
     it "returns the expected result for provided example 3" do
         maze = [[".","+"]]
         entrance = [0,0]
         result = nearest_exit(maze, entrance)
-        expect(result).to be(-1)
+        expect(result).to eq(-1)
     end
+
+    it "returns -1 when there are no exits" do
+        maze = [["+","+","+","+"],["+",".",".","+"],["+","+","+","+"]]
+        entrance = [1,2]
+        result = nearest_exit(maze, entrance)
+        expect(result).to eq(-1)
+    end
+
+    it "returns expected value for failing test case" do 
+        maze = [[".","+","."]]
+        entrance = [0,2]
+        result = nearest_exit(maze, entrance)
+        expect(result).to eq(-1)
+    end
+end
