@@ -25,6 +25,8 @@
 # @param {Integer[][]} matrix
 # @param {Integer} target
 # @return {Boolean}
+# Runtime: O(log(m * n))
+# Space: O(1)
 def search_matrix_iterative(matrix, target)
   if matrix.nil? || matrix.empty? || matrix[0].length == 0
     return false
@@ -48,6 +50,8 @@ def search_matrix_iterative(matrix, target)
   false
 end
 
+# Runtime: O(log(m * n))
+# Space: O(log(m * n))
 def search_matrix_recursive(matrix, target)
   if matrix.nil? || matrix.empty? || matrix[0].length == 0
     return false
@@ -77,6 +81,8 @@ def binary_search_2d(start_i, end_i, matrix, target)
   end
 end
 
+# Runtime: O(log(m * n))
+# Space: O(n)
 def search_matrix_space_unoptimized(matrix, target)
   if matrix.nil? || matrix.empty?
     return false
@@ -90,6 +96,8 @@ def search_matrix_space_unoptimized(matrix, target)
   binary_search_row(matrix_1d, target)
 end
 
+# Runtime: O(m + log(n)) where m = num rows and n = items per row
+# Space: O(log(n))
 def search_matrix_medium_optimized(matrix, target)
   if matrix.nil? || matrix.empty?
     return false
@@ -120,6 +128,8 @@ def binary_search_row(row, target)
   end
 end
 
+# Runtime: O(m * n) where m = num rows and n = items per row
+# Space: O(1)
 def search_matrix_brute_force(matrix, target)
   if matrix.nil? || matrix.empty?
     return false
