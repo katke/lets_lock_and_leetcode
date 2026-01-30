@@ -4,16 +4,10 @@
 
 
 def letter_mapping_iterative(digits)
-  letter_map = {
-    "2" => "abc",
-    "3" => "def",
-    "4" => "ghi",
-    "5" => "jkl",
-    '6' => "mno",
-    "7" => "pqrs",
-    "8" => "tuv",
-    "9" => "wxyz"
-  }
+  if digits.empty?
+    return []
+  end
+  letter_map = get_digit_to_letter_mapping
   result = []
   queue = []
   queue.push("")
@@ -40,4 +34,39 @@ def letter_mapping_iterative(digits)
     end
   end
   result
+end
+
+def letter_mapping_recursive(digits)
+  if digits.empty?
+    return []
+  end
+  map = get_digit_to_letter_mapping
+  result = []
+  build_permutation(digits, 0, "", result, map)
+  result
+end
+
+def build_permutation(digits, digit_index, curr_perm, result, digit_map)
+  if digit_index == digits.length
+    result << curr_perm.dup
+    return
+  end
+  digit_map[digits[digit_index]].chars.each do |letter|
+    curr_perm << letter
+    build_permutation(digits, digit_index + 1, curr_perm, result, digit_map)
+    curr_perm.chop!
+  end
+end
+
+def get_digit_to_letter_mapping
+  {
+    "2" => "abc",
+    "3" => "def",
+    "4" => "ghi",
+    "5" => "jkl",
+    "6" => "mno",
+    "7" => "pqrs",
+    "8" => "tuv",
+    "9" => "wxyz"
+  }
 end
