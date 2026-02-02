@@ -34,95 +34,42 @@ def candy_crush(board)
 end
 
 def search_candies(board)
+  puts "search candies ---------START"
   visited = Set.new
   to_be_crushed = Set.new
-  directions = [1,-1]
-  rows = board.size.freeze
-  columns = board[0].size.freeze
   found_candies = false
-  queue = []
   board.each_with_index do |row, i|
     row.each_with_index do |col, j|
-      puts "--"
-      vertical_streak = []
-      horizontal_streak = []
-      unless visited.include?(stringify_coordinates([i,j]))
-        queue.push([i,j])
-        vertical_streak << [i,j]
-        curr_streak_val = board[i][j]
-        puts "curr_streak_val: #{curr_streak_val}"
-      end
-      # Check vertical first
-      until queue.empty? do
-        puts "++"
-        curr_coor = queue.shift
-        curr_row = curr_coor[0]
-        curr_col = curr_coor[1]
-        visited.add(stringify_coordinates([curr_row,curr_col]))
-        # check vertical neighbors
-        directions.each do |direction|
-          next_row = curr_row + direction
-          unless is_valid_coordinate(rows, columns, [next_row, curr_col])
-            next
-          end
-          is_part_of_streak = curr_streak_val == board[next_row][curr_col]
-          unless is_part_of_streak && !visited.include?(stringify_coordinates([next_row, curr_col]))
-            next
-          end
-          vertical_streak << [next_row, curr_col]
-          queue << [next_row, curr_col]
-        end
-      end
-      # check horizontal neighbors
-      unless visited.include?(stringify_coordinates([i,curr_col]))
-        queue.push([i,j])
-        horizontal_streak <<[[i,j]]
-        curr_streak_val = board[i][j]
-      end
-      until queue.empty? do
-        puts "=="
-        curr_coor = queue.shift
-        curr_row = curr_coor[0]
-        curr_col = curr_coor[1]
-        visited.add(stringify_coordinates([curr_row,curr_col]))
-        directions.each do |direction|
-          next_col = curr_col + direction
-          unless is_valid_coordinate(rows, columns, [curr_row, next_col])
-            next
-          end
-          is_part_of_streak = curr_streak_val == board[curr_row][next_col]
-          unless is_part_of_streak && !visited.include?(stringify_coordinates([curr_row,next_col]))
-            next
-          end
-          horizontal_streak << [curr_row, next_col]
-          # check for min 3 horizontal vs vertical
-          queue.push([curr_row, next_col])
-        end
-      end
-      puts "horizontal streak: #{horizontal_streak}"
+      vertical_streak = traverse_potential_streak(board, [i,j], visited, false)
       puts "vertical streak: #{vertical_streak}"
+      horizontal_streak = traverse_potential_streak(board, [i,j], visited)
+      puts "horizontal streak: #{horizontal_streak}"
       if horizontal_streak.size >= 3
         found_candies = true
         horizontal_streak.each  { |coordinates| to_be_crushed.add(coordinates) }
       end
       if vertical_streak.size >= 3
         found_candies = true
-        horizontal_streak.each  { |coordinates| to_be_crushed.add(coordinates) }
+        vertical_streak.each  { |coordinates| to_be_crushed.add(coordinates) }
       end
     end
+  end
   crush_candies(board, to_be_crushed)
   found_candies
-  rescue => ex
-    puts ex.message
-  end
 end
 
-def traverse_streak(board, start_coords, visited, is_horizontal = true)
+def traverse_potential_streak(board, start_coords, visited, is_horizontal = true)
+  puts "start_coords: #{start_coords}"
   directions = [1,-1]
   curr_streak_val = board[start_coords[0]][start_coords[1]]
+  if curr_streak_val == 0
+    visited << start_coords
+    return Set.new
+  end
   streak = Set.new
   queue = []
   queue.push(start_coords)
+  streak.add(start_coords)
   until queue.empty? do
     curr_coor = queue.shift
     curr_row = curr_coor[0]
@@ -147,7 +94,7 @@ def traverse_streak(board, start_coords, visited, is_horizontal = true)
       queue.push([next_row, next_col])
     end
   end
-  streak
+  streak.size >= 3 ? streak : Set.new
 end
 
 def stringify_coordinates(coordinates)
@@ -158,22 +105,9 @@ def stringify_coordinates(coordinates)
   end
 end
 
-def destringify_coordinates(coordinates)
-  if coordinates.is_a?(String)
-    coord_arr = coordinates.split('_')
-    [coord_arr[0].to_i, coord_arr[1].to_i]
-  else
-    raise Exception("expecting string coordinates with _ delimiter")
-  end
-end
-
 def crush_candies(board, streak)
+  puts "crushing candies for streak: #{streak}"
   # fill in zeros where we crushed candies
-  # streak.each do |coord|
-  #   crushed_row = coord[0]
-  #   crushed_col = coord[1]
-  #   board[crushed_row][crushed_col] = 0
-  # end
   # drop rest of board based on where we crushed candies
     streak.each do |coord|
       crushed_row = coord[0]
