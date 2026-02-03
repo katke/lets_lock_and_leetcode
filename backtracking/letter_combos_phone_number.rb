@@ -2,6 +2,34 @@
 #
 # A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
 
+def letter_mapping_backtracking(digits)
+  if digits.nil? || digits.empty?
+    return []
+  end
+  puts "digits: #{digits}"
+  puts "-----"
+  permutation_results = []
+  digit_mapping = get_digit_to_letter_mapping
+  backtrack("", 0, digits, permutation_results, digit_mapping)
+  puts "permutation results #{permutation_results}"
+  permutation_results
+end
+
+def backtrack(curr_perm, active_index, digits, permutation_results, digit_mapping)
+  puts "backtrack() curr_perm #{curr_perm}, active digit #{active_index >= digits.length ? "-" : digits[active_index]}"
+  if curr_perm.length == digits.length
+    puts "found complete permutation"
+    permutation_results << curr_perm.dup
+    return
+  end
+  curr_digit = digits[active_index]
+  digit_mapping[curr_digit].chars.each do |char|
+    curr_perm << char
+    backtrack(curr_perm, active_index + 1, digits, permutation_results, digit_mapping)
+    puts "backtracking, removing #{char}"
+    curr_perm.chop!
+  end
+end
 
 def letter_mapping_iterative(digits)
   if digits.empty?

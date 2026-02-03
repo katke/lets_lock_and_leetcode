@@ -25,3 +25,15 @@ describe "#letter_mapping_recursive" do
     end
   end
 end
+
+describe "#letter_mapping_backtracking" do
+  it "does the thing" do
+    digits = "23"
+    result = letter_mapping_backtracking(digits)
+    expected = %w[ad ae af bd be bf cd ce cf]
+    expect(result.length).to eq(expected.length)
+    result.each do |perm|
+      expect(expected.include?(perm)).to eq(true)
+    end
+  end
+end
