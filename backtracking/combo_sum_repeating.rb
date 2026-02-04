@@ -10,13 +10,14 @@
 # All elements of candidates are distinct.
 # 1 <= target <= 40
 def combination_sum(candidates, target)
+  puts "candidates: #{candidates}, target: #{target}"
   result = []
   backtrack(0, [], 0, candidates, target, result)
   result
 end
 
 def backtrack(curr_sum, curr_combo, start_index, candidates, target, result)
-  puts "backtrack() curr_sum #{curr_sum}, curr_combo #{curr_combo}, target #{target}"
+  puts "backtrack() curr_sum #{curr_sum}, curr_combo #{curr_combo}, start_index: #{start_index}"
   if curr_sum == target
     result << curr_combo.dup
     return
@@ -24,7 +25,7 @@ def backtrack(curr_sum, curr_combo, start_index, candidates, target, result)
     return
   end
   (start_index...candidates.length).each do |index|
-    puts "index: #{index}"
+    # puts "index: #{index}"
     curr_combo << candidates[index]
     backtrack(curr_sum + candidates[index], curr_combo, index, candidates, target, result)
     puts "backtracking, removing #{candidates[index]}"
