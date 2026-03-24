@@ -1,4 +1,4 @@
-def reverse_grouped_string(string)
+def reverse_words_inplace(string)
   left = 0
   right = string.length - 1
   while left < right do
@@ -17,14 +17,14 @@ def reverse_grouped_string(string)
       while string[right] == " " || right == string.length - 1
         right += 1
       end
-      reverse_word(string, left, right)
+      reverse_word_inplace(string, left, right)
       left = right
     end
   end
   string
 end
 
-def reverse_word(string, left, right)
+def reverse_word_inplace(string, left, right)
   while left < right
     left_char = string[left]
     right_char = string[right]
@@ -35,16 +35,40 @@ def reverse_word(string, left, right)
   end
 end
 
-def reverse_grouped_string_no_constraints(string)
-  split = string.split(" ")
-  result = ""
-  i = split.length - 1
-  while i >= 0
-    result << split[i]
-    if i != 0
-      result << " "
-    end
-    i -= 1
+# def reverse_words(s)
+#   if s.nil?
+#     return ""
+#   end
+#   s.strip!
+#   word_list = s.split(" ").reverse!
+#   word_list.join(" ")
+# end
+
+# def reverse_words(s)
+#   if s.nil?
+#     return ""
+#   end
+#   s.strip!
+#   s.reverse!
+#   result = []
+#   s.split(" ").each do |word|
+#     result << word.reverse
+#   end
+#   result.join(" ")
+# end
+
+def reverse_words(s)
+  if s.nil?
+    return ""
   end
-  result
+  deque = []
+  s.split(" ").each do |word|
+    deque.push(word)
+  end
+  result = ""
+  until deque.empty?
+    result << " "
+    result << deque.pop
+  end
+  result.strip!
 end
